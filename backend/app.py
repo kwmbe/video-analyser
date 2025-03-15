@@ -1,0 +1,36 @@
+import os
+import uuid as u
+
+from flask import Flask, request, abort, Response
+from flask_cors import CORS
+from json import dumps
+from werkzeug.utils import secure_filename
+
+
+app = Flask(__name__)
+CORS(app)
+app.secret_key = u.uuid4().hex
+app.config['UPLOAD_FOLDER'] = './uploads/'
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['mp4']
+
+def uploaded_files():
+    return os.listdir(app.config['UPLOAD_FOLDER'])
+
+@app.route('/')
+def test():
+    return 'running!'
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'file' not in request.files:
+        return abort(Response(dumps({'error': 'No file selected'}), 400))
+    file = request.files['file']
+    if file.filename == '':
+        return abort(Response(dumps({'error': 'File name is empty'}), 400))
+    if not allowed_file(file.filename):
+        return abort(Response(dumps({'error': 'Wrong file extension'}), 415))
+    filename = u.uuid4().hex + '.mp4'
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    return uploaded_files()
