@@ -6,13 +6,13 @@ function App() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000')
+    fetch(import.meta.env.VITE_API_URL + '')
     .then(x => x.json())
     .then(x => setVideos(x))
   }, []);
   
   const deleteVideo = (e) => {
-    fetch('http://localhost:5000/delete/' + e, {
+    fetch(import.meta.env.VITE_API_URL + '/delete/' + e, {
       method: 'DELETE',
     })
     .then(x => x.json())
@@ -24,7 +24,7 @@ function App() {
       const fd = new FormData();
       fd.append('file', e.target.files[0]);
       
-      fetch('http://localhost:5000/upload', {
+      fetch(import.meta.env.VITE_API_URL + '/upload', {
         method: 'POST',
         body:   fd,
       })
@@ -45,7 +45,7 @@ function App() {
               videos.map((e, i) => (
                 <li key={i} onClick={() => deleteVideo(e)}>
                   <video controls>
-                    <source src={'http://localhost:5000/video/' + e} type='video/mp4'/>
+                    <source src={import.meta.env.VITE_API_URL + '/video/' + e} type='video/mp4'/>
                   </video> 
                 </li>
               ))
