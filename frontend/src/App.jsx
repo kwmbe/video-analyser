@@ -41,7 +41,15 @@ function App() {
       { 
         !!videos.length && (
           <ul>
-            { videos.map((e, i) => (<li key={i} onClick={() => deleteVideo(e)}>{e}</li>)) }
+            {
+              videos.map((e, i) => (
+                <li key={i} onClick={() => deleteVideo(e)}>
+                  <video controls>
+                    <source src={'http://localhost:5000/video/' + e} type='video/mp4'/>
+                  </video> 
+                </li>
+              ))
+            }
           </ul>
         )
       }
