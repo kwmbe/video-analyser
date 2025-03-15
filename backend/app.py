@@ -4,7 +4,6 @@ import uuid as u
 from flask import Flask, request, abort, Response
 from flask_cors import CORS
 from json import dumps
-from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -20,7 +19,7 @@ def uploaded_files():
 
 @app.route('/')
 def test():
-    return 'running!'
+    return uploaded_files()
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -34,3 +33,12 @@ def upload():
     filename = u.uuid4().hex + '.mp4'
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return uploaded_files()
+
+@app.route('/delete/<path:id>', methods=['DELETE'])
+def delete(id):
+    file = os.path.join(app.config['UPLOAD_FOLDER'], id)
+    if os.path.exists(file):
+        os.remove(file)
+        return uploaded_files()
+    return abort(Response(dumps({'error': 'File not found'}), 404))
+

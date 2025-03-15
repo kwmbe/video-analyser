@@ -10,4 +10,4 @@ htmlcov/
 docs/_build/
 
 # don't put the videos on git
-uploads/
+uploads/*
