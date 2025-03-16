@@ -10,4 +10,14 @@ services:
     build: backend
     ports:
       - "5000:5000"
+    volumes:
+      - videos:/app/uploads
+  ai:
+    build: ai
+    depends_on:
+      - backend    
+    volumes:
+      - videos:/app/uploads
+volumes:
+  videos:
 
