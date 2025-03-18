@@ -27,6 +27,6 @@ For me, analyzing a 54 second video took 1.5 hours with an AMD 5700X and an RTX3
 
 - [X] Minimal frontend functionality
 - [X] Backend add, delete and fetch endpoints 
-- [ ] Display a part of the AI output in the frontend
+- [X] Display a part of the AI output in the frontend
 - [ ] Migrate to kubernetes (k3s)
 - [ ] Prettify the frontend
