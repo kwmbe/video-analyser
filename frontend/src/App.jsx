@@ -3,13 +3,18 @@ import './App.css'
 
 function App() {
 
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] =             useState([]);
+  const [descriptions, setDescriptions] = useState([]);
 
   useEffect(() => {
     fetch(import.meta.env.VITE_API_URL + '')
     .then(x => x.json())
     .then(x => setVideos(x))
   }, []);
+  
+  useEffect(() => {
+    Promise.all(videos.map((e) => title(e))).then(x => setDescriptions(x));
+  }, [videos]);
   
   const deleteVideo = (e) => {
     fetch(import.meta.env.VITE_API_URL + '/delete/' + e, {
@@ -34,6 +39,11 @@ function App() {
     }
   }
 
+  const title = async (e) => await fetch(import.meta.env.VITE_API_URL + '/video/' + e + '.txt')
+                        .then(x => x.json())
+                        .then(x => x?.video_description?.response)
+                        .catch(err => 'Analyzing...')
+
   return (
     <>
       <h1>video-analyser</h1>
@@ -44,7 +54,7 @@ function App() {
             {
               videos.map((e, i) => (
                 <li key={i} onClick={() => deleteVideo(e)}>
-                  <video controls>
+                  <video controls title={descriptions[i]}>
                     <source src={import.meta.env.VITE_API_URL + '/video/' + e} type='video/mp4'/>
                   </video> 
                 </li>

@@ -16,7 +16,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['mp4']
 
 def uploaded_files():
-    return [x for x in os.listdir(app.config['UPLOAD_FOLDER']) if not x.startswith('.')]
+    return [x for x in os.listdir(app.config['UPLOAD_FOLDER']) if not x.endswith('.mp4')]
 
 @app.route('/')
 def test():

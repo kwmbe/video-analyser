@@ -1,6 +1,23 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width:  1280px;
+  margin:     0 auto;
+  padding:    2rem;
   text-align: center;
+}
+
+li {
+  list-style: none;
+}
+
+li:after {
+  content:    "[delete]";
+  position:   relative;
+  display:    block;
+  right:      0;
+  left:       0;
+}
+
+li:hover:after {
+  cursor:          pointer;
+  text-decoration: underline;
 }
