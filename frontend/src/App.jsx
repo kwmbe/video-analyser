@@ -3,11 +3,14 @@ import './App.css'
 
 function App() {
 
+  const url = import.meta.env.VITE_API_URL ?? 'http://localhost/api';
+  console.log('env', import.meta.env.VITE_API_URL);
+  console.log('url', url);
   const [videos, setVideos] =             useState([]);
   const [descriptions, setDescriptions] = useState([]);
 
   useEffect(() => {
-    fetch(import.meta.env.VITE_API_URL + '')
+    fetch(url + '')
     .then(x => x.json())
     .then(x => setVideos(x))
   }, []);
@@ -17,7 +20,7 @@ function App() {
   }, [videos]);
   
   const deleteVideo = (e) => {
-    fetch(import.meta.env.VITE_API_URL + '/delete/' + e, {
+    fetch(url + '/delete/' + e, {
       method: 'DELETE',
     })
     .then(x => x.json())
@@ -29,7 +32,7 @@ function App() {
       const fd = new FormData();
       fd.append('file', e.target.files[0]);
       
-      fetch(import.meta.env.VITE_API_URL + '/upload', {
+      fetch(url + '/upload', {
         method: 'POST',
         body:   fd,
       })
@@ -39,7 +42,7 @@ function App() {
     }
   }
 
-  const title = async (e) => await fetch(import.meta.env.VITE_API_URL + '/video/' + e + '.txt')
+  const title = async (e) => await fetch(url + '/video/' + e + '.txt')
                         .then(x => x.json())
                         .then(x => x?.video_description?.response)
                         .catch(err => 'Analyzing...')
@@ -55,7 +58,7 @@ function App() {
               videos.map((e, i) => (
                 <li key={i} onClick={() => deleteVideo(e)}>
                   <video controls title={descriptions[i]}>
-                    <source src={import.meta.env.VITE_API_URL + '/video/' + e} type='video/mp4'/>
+                    <source src={url + '/video/' + e} type='video/mp4'/>
                   </video> 
                 </li>
               ))

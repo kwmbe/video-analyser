@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert -f compose.yaml
+    kompose.version: 1.35.0 (9532ceef3)
+  labels:
+    io.kompose.service: ai
+  name: ai
+spec:
+  progressDeadlineSeconds: 3600
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ai
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert -f compose.yaml
+        kompose.version: 1.35.0 (9532ceef3)
+      labels:
+        io.kompose.service: ai
+    spec:
+      containers:
+        - image: ai
+          name: ai
+          imagePullPolicy: Never
+          volumeMounts:
+            - mountPath: /app/uploads
+              name: videos
+      restartPolicy: Always
+      volumes:
+        - name: videos
+          persistentVolumeClaim:
+            claimName: videos

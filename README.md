@@ -9,24 +9,34 @@ The AI is ran locally. Be sure to run this on a computer which at least has a de
 Make sure [git](https://git-scm.com/downloads) and [docker](https://docs.docker.com/engine/install/) are installed. Linux or WSL is recommended.
 
 1. Clone the repo with `git clone https://github.com/kwmbe/video-analyser`
-2. Run everything with `docker compose up`
+2. Run the containers:
+  * With docker: 
+    1. Make sure the .env file is set, and `VITE_API_URL` is equal to `http://localhost:5000`.
+    2. Run `docker compose up`.
+  * With k3s:
+    1. If they aren't yet built, build the three images using `docker build -t frontend frontend`. The name of the image is repeated twice since the directory has the same name.
+    2. Send the images to k3s using `sudo docker save frontend:latest | sudo k3s ctr images import -`. Here you specify the name of the docker images.
+    3. Install k3s with `curl -sfL https://get.k3s.io | sh -`.
+    4. Make sure the .env file is set, and `VITE_API_URL` is equal to `http://localhost/api`.
+    5. Run all manifests in `./manifests` with `sudo k3s kubectl apply -f manifests/frontend-service.yaml,manifests/backend-service.yaml,manifests/frontend-deployment.yaml,manifests/backend-deployment.yaml,manifests/ai-deployment.yaml,manifests/videos-persistentvolumeclaim.yaml,manifests/config.yaml,manifests/frontend-ingress.yaml,manifests/backend-ingress.yaml,manifests/env-vars.yaml`.
+    6. Visit `http://localhost` and upload a file! You can check the logs of containers with, for example, `sudo k3s kubectl logs -f deployment/ai`. It is recommended to view the logs of the AI container before uploading a file, since it won't be analyzed if the AI isn't ready yet. More on that in the next section:
 
 ## Using the app
 
 Since the AI is running locally, setting this up takes a while. The first time running this on Windows without WSL, just building the docker image took over an hour. 
 
-After the images are built, a script in the AI container will start ollama and fetch the image recognition module. This may take up to 15 minutes and will rapidly enter a bunch of identical strings in the console. Even if it looks like it's not doing anything, don't worry, it should be working.
+After the images are built, a script in the AI container will start ollama and fetch the image recognition module. This may take a while and will rapidly enter a bunch of identical strings in the console (only when using docker compose). Even if it looks like it's not doing anything, don't worry, it should be working.
 
-When this has finished, you should see "starting watcher" being printed to the console. This means the AI container is ready to analyse any video uploaded to the backend. Now you can go to http://localhost:3000 and upload a video!
+When this has finished, you should see "watches established" being printed to the console. This means the AI container is ready to analyse any video uploaded to the backend. Now you can go to http://localhost:3000 and upload a video!
 
 When a video has been uploaded, the AI container should print `analyzing PATH/TO/VIDEO` to the console. Again, this may take a while. 
 
-For me, analyzing a 54 second video took 1.5 hours with an AMD 5700X and an RTX3070Ti. Analyzing a 3 second video  with an i3 10100Y and integrated graphics ended up crashing my laptop after 20 minutes, it never finished.
+Expect waiting times of around 1~1.5 minutes per extracted frame when using a graphics card similar in performance to a 3070Ti. Of course this also depends on the resolution of the video. Running the AI without a dedicated graphics card may end up crashing your PC.
 
 ## Checklist
 
 - [X] Minimal frontend functionality
 - [X] Backend add, delete and fetch endpoints 
 - [X] Display a part of the AI output in the frontend
-- [ ] Migrate to kubernetes (k3s)
+- [X] Migrate to kubernetes (k3s)
 - [ ] Prettify the frontend
