@@ -25,9 +25,6 @@ spec:
         - image: frontend
           name: frontend
           imagePullPolicy: Never
-          envFrom:
-            - configMapRef:
-                name: env-vars
           ports:
             - containerPort: 3000
               protocol: TCP

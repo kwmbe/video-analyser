@@ -25,9 +25,9 @@ Make sure [git](https://git-scm.com/downloads) and [docker](https://docs.docker.
 
 Since the AI is running locally, setting this up takes a while. The first time running this on Windows without WSL, just building the docker image took over an hour. 
 
-After the images are built, a script in the AI container will start ollama and fetch the image recognition module. This may take a while and will rapidly enter a bunch of identical strings in the console (only when using docker compose). Even if it looks like it's not doing anything, don't worry, it should be working.
+After the images are built, a script in the AI container will start ollama and fetch the image recognition module. This may take a while. Even if it looks like it's not doing anything, or it looks like something's going wrong, don't worry, it's either working or it will retry until it works.
 
-When this has finished, you should see "watches established" being printed to the console. This means the AI container is ready to analyse any video uploaded to the backend. Now you can go to http://localhost:3000 and upload a video!
+When this has finished, you should see "Watches established" being printed to the console. This means the AI container is ready to analyse any video uploaded to the backend. Now you can go to http://localhost (port 80 for k3s, port 3000 for docker compose) and upload a video!
 
 When a video has been uploaded, the AI container should print `analyzing PATH/TO/VIDEO` to the console. Again, this may take a while. 
 
