@@ -14,12 +14,11 @@ Make sure [git](https://git-scm.com/downloads) and [docker](https://docs.docker.
     1. Make sure the .env file is set, and `VITE_API_URL` is equal to `http://localhost:5000`.
     2. Run `docker compose up`.
   * With k3s:
-    1. If they aren't yet built, build the three images using `docker build -t frontend frontend`. The name of the image is repeated twice since the directory has the same name.
+    1. If they aren't yet built, build the three images using `docker build --build-arg VITE_API_URL=http://localhost/api -t frontend frontend`. The name of the image is repeated twice since the directory has the same name. The build-arg flag only needs to be passed when building the frontend image.
     2. Send the images to k3s using `sudo docker save frontend:latest | sudo k3s ctr images import -`. Here you specify the name of the docker images.
     3. Install k3s with `curl -sfL https://get.k3s.io | sh -`.
-    4. Make sure the .env file is set, and `VITE_API_URL` is equal to `http://localhost/api`.
-    5. Run all manifests in `./manifests` with `sudo k3s kubectl apply -f manifests/frontend-service.yaml,manifests/backend-service.yaml,manifests/frontend-deployment.yaml,manifests/backend-deployment.yaml,manifests/ai-deployment.yaml,manifests/videos-persistentvolumeclaim.yaml,manifests/config.yaml,manifests/frontend-ingress.yaml,manifests/backend-ingress.yaml,manifests/env-vars.yaml`.
-    6. Visit `http://localhost` and upload a file! You can check the logs of containers with, for example, `sudo k3s kubectl logs -f deployment/ai`. It is recommended to view the logs of the AI container before uploading a file, since it won't be analyzed if the AI isn't ready yet. More on that in the next section:
+    4. Run all manifests in `./manifests` with `sudo k3s kubectl apply -f manifests/frontend-service.yaml,manifests/backend-service.yaml,manifests/frontend-deployment.yaml,manifests/backend-deployment.yaml,manifests/ai-deployment.yaml,manifests/videos-persistentvolumeclaim.yaml,manifests/config.yaml,manifests/frontend-ingress.yaml,manifests/backend-ingress.yaml,manifests/env-vars.yaml`.
+    5. Visit `http://localhost` and upload a file! You can check the logs of containers with, for example, `sudo k3s kubectl logs -f deployment/ai`. It is recommended to view the logs of the AI container before uploading a file, since it won't be analyzed if the AI isn't ready yet. More on that in the next section:
 
 ## Using the app
 

@@ -3,9 +3,7 @@ import './App.css'
 
 function App() {
 
-  const url = import.meta.env.VITE_API_URL ?? 'http://localhost/api';
-  console.log('env', import.meta.env.VITE_API_URL);
-  console.log('url', url);
+  const url = import.meta.env.VITE_API_URL;
   const [videos, setVideos] =             useState([]);
   const [descriptions, setDescriptions] = useState([]);
 
