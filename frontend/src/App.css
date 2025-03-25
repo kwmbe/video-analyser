@@ -5,8 +5,17 @@
   text-align: center;
 }
 
-li {
-  list-style: none;
+ul {
+  display:               grid;
+  grid-template-columns: auto auto;
+  grid-gap:              1em;
+  padding:               1em;
+}
+
+video, li {
+  height:        20em;
+  border-radius: 1em;
+  list-style:    none;
 }
 
 li:after {
