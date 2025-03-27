@@ -9,11 +9,11 @@ input::file-selector-button {
   border:           none;
   border-radius:    .5em;
   padding:          1em;
-  background-color: #888;
+  background-color: #999;
 }
 
 input {
-  background-color: #888;
+  background-color: #999;
   color:            #eee;
   border-radius:    .5em;
 }
@@ -31,11 +31,12 @@ ul {
 }
 
 video, li {
-  height:        20em;
-  border-radius: .5em;
-  list-style:    none;
-  position:      relative;
-  z-index:       1;
+  height:           20em;
+  border-radius:    .5em;
+  list-style:       none;
+  position:         relative;
+  z-index:          1;
+  background-color: #999;
 }
 
 li:before, li:after {
