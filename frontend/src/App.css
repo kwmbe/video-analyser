@@ -5,6 +5,24 @@
   text-align: center;
 }
 
+input::file-selector-button {
+  border:           none;
+  border-radius:    .5em;
+  padding:          1em;
+  background-color: #888;
+}
+
+input {
+  background-color: #888;
+  color:            #eee;
+  border-radius:    .5em;
+}
+
+input::file-selector-button:hover {
+  background-color: #555;
+  cursor:           pointer;
+}
+
 ul {
   display:               grid;
   grid-template-columns: auto auto;
@@ -14,19 +32,35 @@ ul {
 
 video, li {
   height:        20em;
-  border-radius: 1em;
+  border-radius: .5em;
   list-style:    none;
+  position:      relative;
+  z-index:       1;
+}
+
+li:before, li:after {
+  z-index:          2;
+  content:          "";
+  background-color: red;
+  position:         absolute;
+  right:            2em;
+  top:              1em;
+  height:           2em;
+  width:            .375em;
+  border-radius:    .5em;
+  opacity:          0;
+  transition:       opacity .3s;
 }
 
 li:after {
-  content:    "[delete]";
-  position:   relative;
-  display:    block;
-  right:      0;
-  left:       0;
+  transform: rotate(45deg)
 }
 
-li:hover:after {
-  cursor:          pointer;
-  text-decoration: underline;
+li:before {
+  transform: rotate(-45deg)
+}
+
+li:hover:before, li:hover:after {
+  opacity: 1;
+  cursor:  pointer;
 }

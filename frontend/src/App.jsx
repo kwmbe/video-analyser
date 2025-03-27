@@ -48,7 +48,7 @@ function App() {
   return (
     <>
       <h1>video-analyser</h1>
-      <input type="file" accept="video/mp4" onChange={handleChange}/>
+      <input type="file" accept="video/mp4" id="input" onChange={handleChange}/>
       { 
         !!videos.length && (
           <ul>
